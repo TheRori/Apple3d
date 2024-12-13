@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.138.0/build/three.module.js",
+                "OrbitControls": "https://unpkg.com/three@0.138.0/examples/jsm/controls/OrbitControls.js"
+            }
+        }
+    </script>
+    <title>Apple History 3D</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Ajout de styles de base pour centrer la scène et les boîtes d'informations */
+        body {
+            margin: 0;
+            overflow: hidden; /* Masquer les barres de défilement */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Boîte d’information pour chaque modèle */
+        .info-box {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 5px;
+            display: none; /* Cacher par défaut */
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+<div id="desktop">
+    <div id="menu-bar">
+        <span>File</span>
+        <span>Edit</span>
+        <span>View</span>
+        <span>Special</span>
+    </div>
+
+    <div class="window" id="system-software">
+        <div class="window-title">Mac System Software</div>
+        <div class="window-content">
+            <div class="icon">
+                <img src="icons/system-folder.png" alt="System Folder">
+                <span>System Folder</span>
+            </div>
+            <div class="icon">
+                <img src="icons/empty-folder.png" alt="Empty Folder">
+                <span>Empty Folder</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="icon trash">
+        <img src="icons/trash.png" alt="Trash">
+        <span>Trash</span>
+    </div>
+</div>
+
+<div id="interaction-text" style="
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    z-index: 1000;">
+    Appuyez sur Entrée pour interagir avec l'ordinateur.
+</div>
+
+<!-- Conteneur pour les informations du modèle en survol -->
+<div id="info-box" class="info-box">
+    <h3 id="info-title">Nom du modèle</h3>
+    <p id="info-description">Description du modèle</p>
+</div>
+
+<!-- Importation de Three.js et du script principal -->
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
