@@ -25,7 +25,7 @@ Ce projet propose une simulation interactive en 3D mettant en scène des modèle
 ### **Étapes d'installation**
 1. Clonez ce dépôt Git :
    ```bash
-   git clone <URL-DU-DÉPÔT>
+   git clone https://github.com/TheRori/Apple3d
 
 2. Installez les dépendances nécessaires avec un gestionnaire comme npm (si applicable) :
 
