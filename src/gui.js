@@ -1,6 +1,6 @@
 import { GUI } from 'https://unpkg.com/dat.gui/build/dat.gui.module.js';
 
-export function createGUI(mac, table, resources, popups) {
+export function createGUI(mac, table, garage,ambientLight,directionalLight, resources, popups) {
     const gui = new GUI();
 
     const { screenCanvas, screenMesh, screenContext, screenTexture } = resources;
@@ -20,6 +20,19 @@ export function createGUI(mac, table, resources, popups) {
     macFolder.add(mac.scale, 'z', 1, 20).name('Échelle Z');
     macFolder.open();
 
+    // GUI pour le Macintosh
+    const tableFolder = gui.addFolder('Table');
+    tableFolder.add(table.position, 'x', -10, 10).name('Position X');
+    tableFolder.add(table.position, 'y', -10, 10).name('Position Y');
+    tableFolder.add(table.position, 'z', -10, 10).name('Position Z');
+    tableFolder.add(table.rotation, 'x', 1, 20).name('r X');
+    tableFolder.add(table.rotation, 'y', 1, 20).name('r Y');
+    tableFolder.add(table.rotation, 'z', 1, 20).name('r Z');
+    tableFolder.add(table.scale, 'x', 1, 20).name('Échelle X');
+    tableFolder.add(table.scale, 'y', 1, 20).name('Échelle Y');
+    tableFolder.add(table.scale, 'z', 1, 20).name('Échelle Z');
+    tableFolder.open();
+
     // GUI pour l'écran
     const screenFolder = gui.addFolder('Screen');
     screenFolder.add(screenMesh.position, 'x', -10, 10).name('Position X');
@@ -30,70 +43,32 @@ export function createGUI(mac, table, resources, popups) {
     screenFolder.add(screenMesh.scale, 'z', 0.1, 5).name('Échelle Z');
     screenFolder.open();
 
-    // Gestion des pop-ups et captures d'écran
-    const popupControls = {
-        currentPopupIndex: 0, // Indice du pop-up actuel
-        navigatePopups: () => {
-            popups.forEach((popupInfo, index) => {
-                const { popup, screenImage, text } = popupInfo;
+    const garageFolder = gui.addFolder('Garage');
+    garageFolder.add(garage.position, 'x', -10, 10).name('Position X');
+    garageFolder.add(garage.position, 'y', -10, 10).name('Position Y');
+    garageFolder.add(garage.position, 'z', -10, 10).name('Position Z');
+    garageFolder.add(garage.scale, 'x', 0.1, 5).name('Échelle X');
+    garageFolder.add(garage.scale, 'y', 0.1, 5).name('Échelle X');
+    garageFolder.add(garage.scale, 'z', 0.1, 5).name('Échelle X');
 
-                // Mettre à jour la visibilité des pop-ups
-                popup.visible = index === popupControls.currentPopupIndex;
+    garageFolder.open();
 
-                // Mettre à jour l'écran avec l'image correspondante
-                if (popup.visible && screenImage) {
-                    const screenImageElement = new Image();
-                    screenImageElement.src = screenImage;
-                    screenImageElement.onload = () => {
-                        screenContext.clearRect(0, 0, screenCanvas.width, screenCanvas.height);
-                        screenContext.drawImage(screenImageElement, 0, 0, screenCanvas.width, screenCanvas.height);
-                        screenTexture.needsUpdate = true;
-                    };
-                }
+    const ambientFolder = gui.addFolder('Lumière Ambiante');
+    ambientFolder.add(ambientLight, 'intensity', 0, 20).name('Intensité');
+    ambientFolder.open();
 
-                // Mettre à jour le texte du pop-up (si visible)
-                if (popup.visible) {
-                    const popupMaterial = popup.material.map;
-                    const popupCanvas = popupMaterial.image;
-                    const popupCtx = popupCanvas.getContext('2d');
+    // Contrôles pour la lumière directionnelle
+    const directionalFolder = gui.addFolder('Lumière Directionnelle');
+    directionalFolder.add(directionalLight, 'intensity', 0, 20).name('Intensité');
+    directionalFolder.add(directionalLight.position, 'x', -20, 20).name('Position X');
+    directionalFolder.add(directionalLight.position, 'y', -20, 20).name('Position Y');
+    directionalFolder.add(directionalLight.position, 'z', -20, 20).name('Position Z');
+    directionalFolder.add(directionalLight.rotation, 'x', 1, 20).name('r X');
+    directionalFolder.add(directionalLight.rotation, 'y', 1, 20).name('r Y');
+    directionalFolder.add(directionalLight.rotation, 'z', 1, 20).name('r Z');
+    directionalFolder.open();
 
-                    popupCtx.clearRect(0, 0, popupCanvas.width, popupCanvas.height);
-                    popupCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-                    popupCtx.fillRect(0, 0, popupCanvas.width, popupCanvas.height);
-                    popupCtx.font = '20px Arial';
-                    popupCtx.fillStyle = 'white';
 
-                    // Diviser le texte en lignes et l'afficher
-                    const lines = text.split('\n');
-                    lines.forEach((line, i) => {
-                        popupCtx.fillText(line, 20, 50 + i * 30);
-                    });
 
-                    popupMaterial.needsUpdate = true;
-                }
-            });
-        }
-    };
 
-    // Ajouter un contrôleur pour sélectionner le pop-up actif
-    const popupFolder = gui.addFolder('Popups');
-    popupFolder.add(popupControls, 'currentPopupIndex', 0, popups.length - 1, 1).name('Choisir un popup').onChange(() => {
-        popupControls.navigatePopups();
-    });
-
-    // Ajouter des contrôles pour positionner les pop-ups
-    const positionFolder = gui.addFolder('Popup Position');
-    positionFolder.add(popups[popupControls.currentPopupIndex].popup.position, 'x', -10, 10).name('Position X').onChange(() => {
-        popupControls.navigatePopups();
-    });
-    positionFolder.add(popups[popupControls.currentPopupIndex].popup.position, 'y', -10, 10).name('Position Y').onChange(() => {
-        popupControls.navigatePopups();
-    });
-    positionFolder.add(popups[popupControls.currentPopupIndex].popup.position, 'z', -10, 10).name('Position Z').onChange(() => {
-        popupControls.navigatePopups();
-    });
-    positionFolder.open();
-
-    // Initialiser le premier pop-up
-    popupControls.navigatePopups();
 }

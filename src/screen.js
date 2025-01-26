@@ -102,33 +102,6 @@ export function createDesktopTexture() {
     return { texture, canvas, context };
 }
 
-export function createPopup(text, position) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 256;
-    const ctx = canvas.getContext('2d');
-
-    // Style du pop-up
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '20px Arial';
-    ctx.fillStyle = 'white';
-
-    // Diviser le texte en lignes
-    const lines = text.split('\n');
-    lines.forEach((line, index) => {
-        ctx.fillText(line, 20, 50 + index * 30);
-    });
-
-    const texture = new THREE.CanvasTexture(canvas);
-    const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
-    const plane = new THREE.Mesh(new THREE.PlaneGeometry(3, 1.5), material);
-
-    plane.position.set(position.x, position.y, position.z);
-    plane.visible = false; // Par défaut, le pop-up est caché
-
-    return plane;
-}
 
 export function updateMacintoshScreen(screenContext, screenTexture, imagePath) {
     const screenImage = new Image();
