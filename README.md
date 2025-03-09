@@ -57,6 +57,12 @@ Accédez à l’application via votre navigateur à l’adresse [http://localhos
 
 ---
 
+## Démo hébergée en ligne sur Netify
+
+[Démo](https://therori2.netlify.app/)
+
+---
+
 ## Sources et crédits
 
 - **Modèles 3D** : Tous les modèles utilisés proviennent de Blender ou de dépôts open-source (spécifiez les liens si applicables).
