@@ -9,16 +9,40 @@ export function loadModels(scene, onAllModelsLoaded) {
     let mac, table, garage, imacg3, appleII;
     let modelsLoaded = 0;
     const totalModels = 5; // Update this if new models are added
+    
+    // Éléments du préchargeur
+    const preloader = document.getElementById('preloader');
+    const progressBar = document.getElementById('progress-bar');
+    const loadingText = preloader.querySelector('p');
 
     function modelLoaded() {
         modelsLoaded++;
+        // Mettre à jour la barre de progression
+        const progress = (modelsLoaded / totalModels) * 100;
+        progressBar.style.width = `${progress}%`;
+        loadingText.textContent = `Chargement des modèles 3D... (${modelsLoaded}/${totalModels})`;
+        
         if (modelsLoaded === totalModels) {
+            // Masquer le préchargeur avec une transition en fondu
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 500); // Attendre un peu pour que l'utilisateur voie 100%
+            
             onAllModelsLoaded({ mac, table, garage, imacg3, appleII, collisionObjects });
         }
     }
 
     // Load each model
     const loader = new GLTFLoader();
+    
+    // Gestionnaire de progression global
+    loader.manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        console.log(`Progression: ${itemsLoaded} / ${itemsTotal}`);
+    };
 
     // Macintosh 1984
     loader.load('assets/models/macintosh1984.glb', (gltf) => {
