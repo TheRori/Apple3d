@@ -1,4 +1,3 @@
-
 import * as THREE from 'https://unpkg.com/three@0.150.1/build/three.module.js';
 
 export function createScene() {
@@ -55,18 +54,32 @@ function addBackgroundImage(scene) {
 }
 
 function create3DPointer(camera) {
-    // Charger la texture de l'image
-    const textureLoader = new THREE.TextureLoader();
-    const cursorTexture = textureLoader.load('assets/icons/hand.png');
-
+    // Créer une texture circulaire gris clair
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const context = canvas.getContext('2d');
+    
+    // Dessiner un cercle gris clair
+    context.beginPath();
+    context.arc(32, 32, 16, 0, 2 * Math.PI, false);
+    context.fillStyle = 'rgba(220, 220, 220, 0.8)';
+    context.fill();
+    
+    // Créer une texture à partir du canvas
+    const circleTexture = new THREE.CanvasTexture(canvas);
+    
     // Créer un matériau avec la texture
-    const cursorMaterial = new THREE.SpriteMaterial({ map: cursorTexture });
+    const cursorMaterial = new THREE.SpriteMaterial({ 
+        map: circleTexture,
+        transparent: true
+    });
 
     // Créer un Sprite (plane toujours orienté vers la caméra)
     const cursor = new THREE.Sprite(cursorMaterial);
 
     // Ajuster la taille du curseur
-    cursor.scale.set(0.2, 0.2, 0.2); // Adapter la taille du pointeur
+    cursor.scale.set(0.05, 0.05, 0.05); // Taille réduite pour le cercle
 
     // Positionner le pointeur devant la caméra
     cursor.position.set(0, 0, -1); // 1 unité devant la caméra
@@ -181,4 +194,3 @@ export function createWalls(scene, collisionObjects) {
 
     return walls;
 }
-
