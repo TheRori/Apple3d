@@ -238,7 +238,7 @@ function setupEventListeners(camera, renderer, soundManager) {
 
     // Gestion des clics dans la scène
     function handleMouseClick(event) {
-        const mouse = new THREE.Vector2(0, 0.1);
+        const mouse = new THREE.Vector2(0, 0);
 
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, camera);

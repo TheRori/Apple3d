@@ -16,7 +16,7 @@ export function checkCollisionsStop(newPosition, collisionObjects) {
 
         const intersects = raycaster.intersectObjects(collisionObjects, true);
 
-        if (intersects.length > 0 && intersects[0].distance < 1) {
+        if (intersects.length > 0 && intersects[0].distance < 0.5) {
             console.log(`Collision detected : ${dir.x}, ${dir.y}, ${dir.z}`);
             return true; // Collision detected
         }
@@ -24,4 +24,3 @@ export function checkCollisionsStop(newPosition, collisionObjects) {
 
     return false; // No collision detected
 }
-

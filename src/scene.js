@@ -171,8 +171,8 @@ export function createWalls(scene, collisionObjects) {
 
     // Define wall positions and rotations
     const wallPositions = [
-        { x: 0, y: 5, z: -10 }, // Front wall
-        { x: 0, y: 5, z: 20 }, // Back wall
+        { x: 0, y: 5, z: -10 }, // 
+        { x: 0, y: 5, z: 23 }, // Back wall
         { x: -17, y: 5, z: 0, rotationY: Math.PI / 2 }, // Left wall
         { x: 17, y: 5, z: 0, rotationY: Math.PI / 2 }, // Right wall
     ];
