@@ -129,7 +129,7 @@ function drawZonesOnMacintosh(mac, macintoshPopups) {
             // Créer le rond clignotant
             const circleGeometry = new THREE.CircleGeometry(region.width/10, 32);
             const circleMaterial = new THREE.MeshBasicMaterial({
-                color: 0x850000,
+                color: 0x00ff00, // Vert vif au lieu de rouge foncé (0x850000)
                 transparent: true,
                 opacity: 1,
                 side: THREE.DoubleSide,
@@ -144,7 +144,7 @@ function drawZonesOnMacintosh(mac, macintoshPopups) {
             const clock = new THREE.Clock();
             function animateCircle() {
                 const elapsedTime = clock.getElapsedTime();
-                circleMaterial.opacity = 0.5 + 0.5 * Math.sin(elapsedTime * 2);
+                circleMaterial.opacity = 0.5 + 0.5 * Math.sin(elapsedTime * 4); // Clignotement 2x plus rapide (4 au lieu de 2)
                 requestAnimationFrame(animateCircle);
             }
             animateCircle();
