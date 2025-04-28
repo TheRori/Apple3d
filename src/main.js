@@ -40,7 +40,7 @@ let moveRight = false;
 let isMoving = false; // Évite de rejouer le son si l'utilisateur maintient une touche enfoncée
 let collisionObjects = [];
 let velocity = new THREE.Vector3(); // Vitesse de mouvement
-const moveSpeed = 5.0; // Vitesse de déplacement
+const moveSpeed = 8.25; // Vitesse de déplacement
 const damping = 0.9; // Amortissement du mouvement
 const clock = new THREE.Clock();
 
